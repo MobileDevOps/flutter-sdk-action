@@ -1,0 +1,19 @@
+name: "Flutter SDK"
+author: Sebastian Messingfeld
+description: "Installs Flutter SDK"
+inputs:
+  flutter-sdk-version:
+    description: "The Flutter SDK Version"
+    required: false
+    default: "stable"
+runs:
+  using: "composite"
+  steps:
+    - run: |
+        echo "Installing Flutter SDK ${{ inputs.flutter-sdk-version }}"
+        git clone https://github.com/flutter/flutter.git --depth 1 --branch ${{ inputs.flutter-sdk-version }} "$HOME/.flutter"
+        echo "$HOME/.flutter/bin" >> $GITHUB_PATH
+        echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
+      shell: bash
+    - run: flutter precache
+      shell: bash
