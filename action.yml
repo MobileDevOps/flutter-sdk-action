@@ -1,6 +1,9 @@
 name: "Flutter SDK"
 author: Sebastian Messingfeld
 description: "Installs Flutter SDK"
+branding:
+  icon: 'check-circle'
+  color: 'orange'
 inputs:
   flutter-sdk-version:
     description: "The Flutter SDK Version"
