@@ -27,7 +27,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install Flutter SDK
-        uses: mobiledevops/flutter-sdk-action@v1
+        uses: mobiledevops/flutter-sdk-action@v1.0.0
         with:
           flutter-sdk-version: 3.7.7
       - run: flutter --version
