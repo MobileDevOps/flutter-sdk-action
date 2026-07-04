@@ -1,0 +1,24 @@
+action.yml
+  s_9be25f34d6945c::t_667ca54fffed55 12-15,19-20,24-32,34-38,41-43
+  s_9be25f34d6945c::t_b7084c06cc96c2 21-23
+README.md
+  s_9be25f34d6945c::t_a53d9bcb91a999 6,9,15-28,33,42,44,46
+.github/workflows/main.yml
+  s_9be25f34d6945c::t_5ea92c3d673d14 9,11,13,17-21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "c370264cce0aaf5130c3ea2563795220f6d4a9c7",
+  "prompts": {},
+  "sessions": {
+    "s_9be25f34d6945c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d77d05b1-f709-4333-b9f9-fb052a4c11b5",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Sebastian Messingfeld <sebastian@messeb.com>"
+    }
+  }
+}
