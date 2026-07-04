@@ -6,12 +6,18 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest]
-        flutter-sdk-version: ["stable", "beta", "3.7.7"]
+        flutter-sdk-version: ["stable", "beta", "3.44.4"]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
       - name: Install Flutter SDK
+        id: flutter
         uses: ./
         with:
           flutter-sdk-version: ${{ matrix.flutter-sdk-version }}
+      - name: Assert flutter-version output
+        run: |
+          test -n "${{ steps.flutter.outputs.flutter-version }}"
+          echo "Installed: ${{ steps.flutter.outputs.flutter-version }}"
+        shell: bash
       - run: flutter --version
       - run: flutter doctor

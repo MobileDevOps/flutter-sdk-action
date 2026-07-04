@@ -9,14 +9,36 @@ inputs:
     description: "The Flutter SDK Version"
     required: false
     default: "stable"
+outputs:
+  flutter-version:
+    description: "The resolved Flutter version reported by the installed SDK"
+    value: ${{ steps.install.outputs.flutter-version }}
 runs:
   using: "composite"
   steps:
-    - run: |
+    - name: Cache Flutter SDK
+      id: cache
+      # Only cache immutable exact versions. Moving channels (stable/beta/master)
+      # would otherwise be pinned to a stale SDK forever.
+      if: inputs.flutter-sdk-version != 'stable' && inputs.flutter-sdk-version != 'beta' && inputs.flutter-sdk-version != 'master' && inputs.flutter-sdk-version != 'main'
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.flutter
+          ~/.pub-cache
+        key: ${{ runner.os }}-flutter-${{ inputs.flutter-sdk-version }}
+    - name: Clone Flutter SDK
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: |
         echo "Installing Flutter SDK ${{ inputs.flutter-sdk-version }}"
-        git clone https://github.com/flutter/flutter.git --depth 1 --branch ${{ inputs.flutter-sdk-version }} "$HOME/.flutter"
+        git clone https://github.com/flutter/flutter.git --depth 1 --single-branch --branch ${{ inputs.flutter-sdk-version }} "$HOME/.flutter"
+      shell: bash
+    - name: Configure and precache Flutter SDK
+      id: install
+      run: |
         echo "$HOME/.flutter/bin" >> $GITHUB_PATH
         echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
-      shell: bash
-    - run: flutter precache
+        "$HOME/.flutter/bin/flutter" precache
+        version="$("$HOME/.flutter/bin/flutter" --version | head -n 1)"
+        echo "flutter-version=$version" >> $GITHUB_OUTPUT
       shell: bash
